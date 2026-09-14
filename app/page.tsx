@@ -175,13 +175,12 @@ export default function Component() {
       case 'python':
         return Object.entries(deps).map(([name, version]) => `${name}==${version}`).join('\n')
       case 'node':
-        let regularDeps: { [key: string]: string } = {}
-        let devDeps: { [key: string]: string } = {}
+        const regularDeps: { [key: string]: string } = {}
+        const devDeps: { [key: string]: string } = {}
         let flag = 0
         Object.keys(deps).forEach(dep => {
           if (flag == 0){
             if (dep.startsWith('-devdeps-')) {
-              const cleanName = dep.replace('-devdeps-', '')
               flag = 1
             }
             else{
@@ -207,7 +206,7 @@ export default function Component() {
       case 'rust':
         return '[dependencies]\n' + Object.entries(deps).map(([name, version]) => `${name} = "${version}"`).join('\n')
       case 'go':
-        return Object.entries(deps).map(([name, version]) => `import "${name}"`).join('\n')
+        return Object.entries(deps).map(([name]) => `import "${name}"`).join('\n')
       case 'r':
         return Object.entries(deps).map(([name, version]) => `install.packages("${name}", version = "${version}")`).join('\n')
       default:
