@@ -61,6 +61,8 @@ export default function Component() {
           url = `https://crates.io/api/v1/crates/${packageName}`
           break
         case 'go':
+	  url = `https://proxy.golang.org/${packageName}/@latest`
+  	  break
         case 'r':
           return 'latest'
         default:
@@ -93,6 +95,7 @@ export default function Component() {
         case 'rust':
           return data.crate.max_version
         case 'go':
+	  return data.Version
         case 'r':
           return 'latest'
         default:
