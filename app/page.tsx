@@ -7,7 +7,7 @@ import { Textarea } from "@/components/ui/textarea"
 import { Copy, Loader2, StopCircle } from "lucide-react"
 import toast, { Toaster } from 'react-hot-toast'
 
-type LanguageType = 'python' | 'node' | 'flutter' | 'ruby' | 'php' | 'java' | 'dotnet' | 'rust' | 'go' | 'r' | 'unknown'
+type LanguageType = 'python' | 'node' | 'flutter' | 'ruby' | 'php' | 'java' | 'dotnet' | 'rust' | 'go' | 'unknown'
 
 export default function Component() {
   const [dependencies, setDependencies] = useState('')
@@ -63,8 +63,6 @@ export default function Component() {
         case 'go':
 		  url = `https://proxy.golang.org/${packageName}/@latest`
 	  	  break
-        case 'r':
-          return 'latest'
         default:
           throw new Error('Unsupported language')
       }
@@ -96,8 +94,6 @@ export default function Component() {
           return data.crate.max_version
         case 'go':
 		  return data.Version
-        case 'r':
-          return 'latest'
         default:
           throw new Error('Unsupported language')
       }
@@ -158,11 +154,6 @@ export default function Component() {
           .filter(line => line.startsWith('import') && line.includes('"'))
           .map(line => line.split('"')[1].split('/').pop())
           .filter(Boolean) as string[]
-      case 'r':
-        return input.split('\n')
-          .filter(line => line.includes('install.packages('))
-          .map(line => line.match(/install\.packages\("(.*?)"/)?.[1])
-          .filter(Boolean) as string[]
       default:
         return []
     }
@@ -210,8 +201,6 @@ export default function Component() {
         return '[dependencies]\n' + Object.entries(deps).map(([name, version]) => `${name} = "${version}"`).join('\n')
       case 'go':
         return Object.entries(deps).map(([name]) => `import "${name}"`).join('\n')
-      case 'r':
-        return Object.entries(deps).map(([name, version]) => `install.packages("${name}", version = "${version}")`).join('\n')
       default:
         return 'Unsupported language'
     }
